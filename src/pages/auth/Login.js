@@ -4,10 +4,13 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { auth } from "../../config/firebase-config";
 
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import CustomInput from "../../components/customInput/CustomInput";
 import DefaultLayout from "../../components/layouts/DefaultLayout";
+import { getUserAction } from "../../user/userAction";
 function Login() {
+  const dispatch = useDispatch();
   const [form, setForm] = useState({});
 
   const inputs = [
@@ -36,8 +39,15 @@ function Login() {
       toast.promise(signInPromise, {
         pending: "In Progress...",
       });
-      const signInValue = await signInPromise;
-      console.log(signInValue);
+      const { user } = await signInPromise;
+
+      // Create a seaprate file to handle this (Action)
+      // Once login successful...> send another call to firebase to grab user info and then save respone to store
+      // Make a call
+      // Grab valur form DB
+      // useDispatch to sabe Admin
+      getUserAction(user.uid, dispatch);
+
       toast.success("Logged In Successfully");
     } catch (e) {
       let { message } = e;
