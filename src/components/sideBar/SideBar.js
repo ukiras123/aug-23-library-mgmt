@@ -28,6 +28,11 @@ function SideBar() {
               History
             </Link>
           </li>
+          <li>
+            <Link className="nav-link" to="/admin-signup">
+              SignUp
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

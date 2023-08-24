@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import CustomInput from "../../components/customInput/CustomInput";
-import DefaultLayout from "../../components/layouts/DefaultLayout";
+import AdminLayout from "../../components/layouts/AdminLayout";
 import { auth, db } from "../../config/firebase-config";
 
 function SignUp() {
@@ -102,7 +102,7 @@ function SignUp() {
   };
 
   return (
-    <DefaultLayout>
+    <AdminLayout>
       <div className="p-3 border shadow rounded admin-form">
         {errorMsg && <Alert variant={"danger"}>{errorMsg}</Alert>}
         <Form onSubmit={handleOnSubmit}>
@@ -122,7 +122,7 @@ function SignUp() {
           </Button>
         </Form>
       </div>
-    </DefaultLayout>
+    </AdminLayout>
   );
 }
 

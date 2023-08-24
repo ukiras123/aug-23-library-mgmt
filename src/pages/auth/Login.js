@@ -1,16 +1,23 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { auth } from "../../config/firebase-config";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomInput from "../../components/customInput/CustomInput";
 import DefaultLayout from "../../components/layouts/DefaultLayout";
 import { getUserAction } from "../../user/userAction";
 function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { admin } = useSelector((state) => state.adminInfo);
+  useEffect(() => {
+    admin?.uid && navigate("/dashboard");
+  }, [admin, navigate]);
+
   const [form, setForm] = useState({});
 
   const inputs = [
@@ -46,9 +53,9 @@ function Login() {
       // Make a call
       // Grab valur form DB
       // useDispatch to sabe Admin
-      getUserAction(user.uid, dispatch);
-
+      dispatch(getUserAction(user.uid));
       toast.success("Logged In Successfully");
+      navigate("/dashboard");
     } catch (e) {
       let { message } = e;
       if (message.includes("auth/wrong-password")) {
