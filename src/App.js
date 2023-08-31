@@ -10,6 +10,8 @@ import { auth } from "./config/firebase-config";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Books from "./pages/books/Books";
+import EditBook from "./pages/books/EditBook";
+import NewBook from "./pages/books/NewBook";
 import Clients from "./pages/clients/Clients";
 import Dashboard from "./pages/dashboard/Dashboard";
 import History from "./pages/history/History";
@@ -51,6 +53,23 @@ function App() {
           element={
             <PrivateRoute>
               <Books />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="new-book"
+          element={
+            <PrivateRoute>
+              <NewBook />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="edit-book/:bookId"
+          element={
+            <PrivateRoute>
+              <EditBook />
             </PrivateRoute>
           }
         />
