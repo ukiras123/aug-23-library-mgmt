@@ -88,6 +88,15 @@ function Login() {
             Login
           </Button>
         </Form>
+        <p>
+          Forget Password?
+          <a href="/reset-password">Reset Password</a>
+        </p>
+
+        <p>
+          Want to Sign Up?
+          <a href="/sign-up">Sign Up here</a>
+        </p>
       </div>
     </DefaultLayout>
   );

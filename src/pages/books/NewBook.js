@@ -8,7 +8,9 @@ import AdminLayout from "../../components/layouts/AdminLayout";
 import { addNewBookAction } from "./bookAction";
 
 function NewBook() {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({
+    isAvailable: true,
+  });
   const dispatch = useDispatch();
   const inputs = [
     {
