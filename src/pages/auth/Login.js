@@ -15,7 +15,13 @@ function Login() {
   const navigate = useNavigate();
   const { admin } = useSelector((state) => state.adminInfo);
   useEffect(() => {
-    admin?.uid && navigate("/dashboard");
+    if (admin?.uid) {
+      if (admin?.role == "student") {
+        navigate("/");
+      } else if (admin?.role == "admin") {
+        navigate("/dashboard");
+      }
+    }
   }, [admin, navigate]);
 
   const [form, setForm] = useState({});
@@ -55,7 +61,7 @@ function Login() {
       // useDispatch to sabe Admin
       dispatch(getUserAction(user.uid));
       toast.success("Logged In Successfully");
-      navigate("/dashboard");
+      // navigate("/dashboard");
     } catch (e) {
       let { message } = e;
       if (message.includes("auth/wrong-password")) {

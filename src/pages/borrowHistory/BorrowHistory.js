@@ -10,8 +10,10 @@ import {
 
 function BorrowHistory() {
   const dispatch = useDispatch();
+  const { admin } = useSelector((state) => state.adminInfo);
+
   useEffect(() => {
-    dispatch(getAllBorrowHistoryAction());
+    dispatch(getAllBorrowHistoryAction(admin.uid));
   }, []);
 
   const historyList = useSelector(
@@ -36,7 +38,7 @@ function BorrowHistory() {
       isReturn: true,
       availableFrom: Date.now(),
     };
-    dispatch(updateHistoryAction(borrowObj));
+    dispatch(updateHistoryAction(borrowObj, admin.uid));
 
     const bookObj = {
       id: history.bookId,
@@ -73,8 +75,18 @@ function BorrowHistory() {
                   <td>
                     <img src={item.url} width={"100px"} />
                   </td>
-                  <td>{new Date(item.borrowedAt).toDateString()}</td>
-                  <td>{new Date(item.availableFrom).toDateString()}</td>
+                  <td>
+                    {`${item.userName} - ${new Date(
+                      item.borrowedAt
+                    ).toDateString()}`}
+                  </td>
+                  <td>
+                    {item.isReturn
+                      ? new Date(item.availableFrom).toDateString()
+                      : `Not yet returned - Deadline ${new Date(
+                          item.availableFrom
+                        ).toDateString()}`}
+                  </td>
                   <td>
                     {item.isReturn ? (
                       "Returned"

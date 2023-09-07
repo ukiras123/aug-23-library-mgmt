@@ -1,7 +1,15 @@
-import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../../config/firebase-config";
-import { getAllBookAction, updateBookAction } from "../books/bookAction";
+import { updateBookAction } from "../books/bookAction";
 import { setBorrowHistories } from "./borrowSlice";
 // Create all CURD action
 
@@ -22,8 +30,6 @@ export const addNewBorrowAction = (borrowObj) => async (dispatch) => {
         availableFrom: borrowObj.availableFrom,
       })
     );
-
-    dispatch(getAllBookAction());
   } catch (e) {
     toast.error(e.message);
     console.log(e);
@@ -31,10 +37,12 @@ export const addNewBorrowAction = (borrowObj) => async (dispatch) => {
 };
 
 // Read data from firebase
-export const getAllBorrowHistoryAction = () => async (dispatch) => {
+export const getAllBorrowHistoryAction = (uid) => async (dispatch) => {
   try {
     // Grab book info from Firebase
-    const querySnapshot = await getDocs(collection(db, "borrow_history"));
+    const historyRef = collection(db, "borrow_history");
+    const q = query(historyRef, where("userId", "==", uid));
+    const querySnapshot = await getDocs(q);
     const history = [];
     querySnapshot.forEach((doc) => {
       const id = doc.id;
@@ -49,7 +57,7 @@ export const getAllBorrowHistoryAction = () => async (dispatch) => {
 };
 
 export const updateHistoryAction =
-  ({ id, ...rest }) =>
+  ({ id, ...rest }, uid) =>
   async (dispatch) => {
     try {
       const docRef = doc(db, "borrow_history", id);
@@ -59,7 +67,7 @@ export const updateHistoryAction =
       });
       await docSnapPromise;
       toast.success("Updated Successfully");
-      dispatch(getAllBorrowHistoryAction());
+      dispatch(getAllBorrowHistoryAction(uid));
     } catch (e) {
       toast.error(e.message);
       console.log(e);

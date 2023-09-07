@@ -39,7 +39,10 @@ function BookLanding() {
       <Container>
         <Row>
           <Link to={"/"}>
-            <Button> &lt; Go Back</Button>
+            <Button variant="secondary" className="mb-2">
+              {" "}
+              &lt; Go Back
+            </Button>
           </Link>
         </Row>
         <Row>

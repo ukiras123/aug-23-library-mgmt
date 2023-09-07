@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { auth } from "../../config/firebase-config";
 import { setAdmin } from "../../user/useSlice";
+import { isStudent } from "../../util";
 
 function Header() {
   const { admin } = useSelector((state) => state.adminInfo);
@@ -19,7 +20,7 @@ function Header() {
   return (
     <Navbar variant="dark" bg="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Library Management</Navbar.Brand>
+        <Navbar.Brand href="/">Library Management</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
@@ -28,7 +29,10 @@ function Header() {
             </Link>
             {admin?.uid ? (
               <>
-                <Link className="nav-link" to="/dashboard">
+                <Link
+                  className="nav-link"
+                  to={isStudent(admin) ? "/history" : "/dashboard"}
+                >
                   Dashboard
                 </Link>
                 <Link className="nav-link" to="#" onClick={handleLogout}>

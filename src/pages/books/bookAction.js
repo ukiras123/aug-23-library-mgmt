@@ -74,6 +74,7 @@ export const updateBookAction =
       });
       await docSnapPromise;
       toast.success("Book Updated Successfully");
+      dispatch(getAllBookAction());
     } catch (e) {
       toast.error(e.message);
       console.log(e);
